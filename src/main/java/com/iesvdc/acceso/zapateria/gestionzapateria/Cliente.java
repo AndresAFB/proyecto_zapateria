@@ -5,9 +5,10 @@
  */
 package com.iesvdc.acceso.zapateria.gestionzapateria;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -22,10 +23,9 @@ import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
  *
- * @author AndresAFB
+ * @author profesor
  */
 @Entity
 @XmlRootElement
@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Cliente.findByNombre", query = "SELECT c FROM Cliente c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Cliente.findByApellidos", query = "SELECT c FROM Cliente c WHERE c.apellidos = :apellidos")
     , @NamedQuery(name = "Cliente.findByDni", query = "SELECT c FROM Cliente c WHERE c.dni = :dni")})
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +43,7 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
     private String nombre;
@@ -52,31 +53,30 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private int dni;
-    
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
-    @JsonManagedReference
-    private List<ClienteDireccion> clienteDireccionList;
+    //@JsonManagedReference
+    private List<ClienteDireccion> clienteDireccionList = new ArrayList<ClienteDireccion>();
 
     public Cliente() {
     }
 
-    public Cliente(Integer id) {
+    public Cliente(Long id) {
         this.id = id;
     }
 
-    public Cliente(Integer id, String nombre, String apellidos, int dni) {
+    public Cliente(Long id, String nombre, String apellidos, int dni) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.dni = dni;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -112,6 +112,10 @@ public class Cliente implements Serializable {
     public void setClienteDireccionList(List<ClienteDireccion> clienteDireccionList) {
         this.clienteDireccionList = clienteDireccionList;
     }
+    
+    public void addClienteDireccion(ClienteDireccion cd) {
+    	this.clienteDireccionList.add(cd);
+    }
 
     @Override
     public int hashCode() {
@@ -137,5 +141,5 @@ public class Cliente implements Serializable {
     public String toString() {
         return "modelo.Cliente[ id=" + id + " ]";
     }
-    
+
 }

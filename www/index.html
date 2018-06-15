@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--HTML5 doctype-->
+<html>
+
+<head>
+
+    <title>App Framework Kitchen Sink</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!--<meta http-equiv="Pragma" content="no-cache" />-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
+    <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+
+    <!--<script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>-->
+        <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/fastclick.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+    
+    <script src='cordova.js'></script>
+    
+    <script src="lib/producto.js"> </script>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+
+</head>
+
+<body>
+    <div id="splashscreen" class='ui-loader heavy'>
+        App Framework
+        <br>
+        <br>
+        <span class='ui-icon ui-icon-loading spin'></span>
+        <h1>Starting app</h1>
+    </div>
+
+    <div class="view splitview">
+        
+        <header>
+            <a class="menuButton" data-left-menu="left" data-transition="cover" style="float:left"></a>
+            <h1>Title</h1>
+        </header>
+        
+        <div class="pages">
+            <!-- PANEL DE INICIO -->
+            <div class="panel" id="main" data-title="Inicio" data-selected="true">
+                <h1>Producto CRUD</h1>
+                <p>Ejemplo de APP híbrida que produce/consume un servicio REST</p>
+            </div>
+            <!-- PANEL PARA CREAR ALUMNOS -->
+            <div class="panel" id="c_alumno" data-title="Create Alumno">
+                <h1>Create Alumno</h1>
+                <div class="container">
+                 <form>
+                  <div class="form-group">
+                    <input type="text" id="c_al_nombre" class="form-control" placeholder="Nombre del Alumno" >
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="c_al_apellidos" class="form-control" placeholder="Apellidos del Alumno"  >
+                  </div>
+                  <div class="form-group">
+                    <div class="btn btn-danger" onclick="$.producto.AlumnoCreateREST()">Enviar!</div>
+                  </div>
+                </form>
+                </div>
+            </div>
+            <!-- PANEL PARA LEER ALUMNOS -->
+            <div class="panel" id="r_alumno" data-title="Read Alumno">
+                <h1>Read Alumno</h1>
+            </div>
+            <!-- PANELES PARA ACTUALIZAR SELECCIÓN Y FORMULARIO -->
+            <div class="panel" id="u_alumno" data-title="Update Alumno">
+                <h1>Update Alumno</h1>
+            </div>
+            <div class="panel" id="uf_alumno" data-title="Update Alumno">
+                <h1>Update Alumno</h1>
+                <div class="container">
+                 <form>
+                  <div class="form-group">
+                    <input type="hidden" id="u_al_id" class="form-control" placeholder="ID del Alumno" >
+                  </div>   
+                  <div class="form-group">
+                    <input type="text" id="u_al_nombre" class="form-control" placeholder="Nombre del Alumno" >
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="u_al_apellidos" class="form-control" placeholder="Apellidos del Alumno"  >
+                  </div>
+                  <div class="form-group">
+                    <div class="btn btn-danger" onclick="$.producto.ProductoUpdateREST(1,1)">Enviar!</div>
+                  </div>
+                </form>
+                </div>
+            </div>
+            <!-- PANEL PARA BORRAR EL ALUMNO -->
+            <div class="panel" id="d_alumno" data-title="Delete Alumno">
+                <h1>Delete Alumno</h1>
+            </div>
+            <div class="panel" id="err_alumno" data-title="ERROR">
+                <h1>Panel para la gestión de errores</h1>
+            </div>
+        </div>
+
+        <nav id="left">
+            <div class="view active">
+                <header>
+                    <h1>Left</h1>
+                </header>
+                <div class="pages">
+                    <div class="panel active" id="navPage1" data-title="Foobar">
+                        <ul class="list">
+                            <li><a href="#main" onclick="$.afui.clearHistory()">Inicio</a></li>
+                            <li><a href="#c_alumno" onclick="$.afui.clearHistory();$.producto.ProductoCreateREST();">Crear Producto</a></li>
+                            <li><a href="#r_alumno" onclick="$.afui.clearHistory();$.producto.ProductoReadREST();">Leer Producto</a></li>
+                            <li><a href="#u_alumno" onclick="$.afui.clearHistory();$.producto.ProductoUpdateREST();">Actualizar Producto</a></li>
+                            <li><a href="#d_alumno" onclick="$.afui.clearHistory();$.producto.ProductoDeleteREST();">Borrar Producto</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+</body>
+
+</html>

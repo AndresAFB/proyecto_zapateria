@@ -3,10 +3,15 @@
   <persistence-unit name="com.iesvdc.acceso.zapateria_gestion-zapateria_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.iesvdc.acceso.zapateria.gestionzapateria.Producto</class>
-    <class>com.iesvdc.acceso.zapateria.gestionzapateria.ProductoCategoria</class>
     <class>com.iesvdc.acceso.zapateria.gestionzapateria.ProductoIdioma</class>
+    <class>com.iesvdc.acceso.zapateria.gestionzapateria.ProductoCategoria</class>
+    <class>com.iesvdc.acceso.zapateria.gestionzapateria.CodPos_1</class>
+    <class>com.iesvdc.acceso.zapateria.gestionzapateria.Cliente_1</class>
+    <class>com.iesvdc.acceso.zapateria.gestionzapateria.ClienteDireccion</class>
+    <class>com.iesvdc.acceso.zapateria.gestionzapateria.CodPos</class>
+    <class>com.iesvdc.acceso.zapateria.gestionzapateria.Cliente</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:33306/gestion_zapateria"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:33306/zapateria"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="test123"/>

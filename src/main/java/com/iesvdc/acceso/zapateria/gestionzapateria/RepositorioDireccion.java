@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author AndresAFB
+ * @author Juangu <jgutierrez at iesvirgendelcarmen.coms>
  */
 @Repository
 public interface RepositorioDireccion extends JpaRepository<ClienteDireccion, Long> {

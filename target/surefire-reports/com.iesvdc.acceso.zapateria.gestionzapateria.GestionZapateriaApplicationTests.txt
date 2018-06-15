@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.iesvdc.acceso.zapateria.gestionzapateria.GestionZapateriaApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.269 s - in com.iesvdc.acceso.zapateria.gestionzapateria.GestionZapateriaApplicationTests

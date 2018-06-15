@@ -11,9 +11,11 @@ recursivo (entidades que referencian a entidades).
 
 ## Paso 1: Crear la Base de Datos
 
-Instalamos MySQL o MariaDB o bien usamos un contenedor docker.
+Instalamos MySQL o MariaDB como servicios o bien usamos un contenedor docker.
 
-Creamos la BBDD "zapateria".
+
+
+Creamos la BBDD "zapateria" desde línea de comandos, desde el IDE o desde PHPmyadmin.
 
 ## Paso 2: Conectar desde NetBeans o STS a la BBDD (crear la conexión)
 
@@ -75,6 +77,8 @@ INSERT INTO `cliente_direccion` (`nombre`, `id_direccion`, `id_cliente`, `nombre
 ('Playa', 3, 2, 'Rue del Percebe 13', 29000),
 ('Oficina', 1, 3, 'Avenida de Andalucia S/N', 29000);
 ```
+Recuerda que el diagrama ER que estamos usando en clase es éste:
+![Diagrama ER](doc/Zapatonline.png "Diagrama Entidad Relación de la Gestión de Zapatería")
 
 ### Paso 3: Creamos el proyecto
 
@@ -131,11 +135,111 @@ public class GestionZapateriaApplication {
 
 ### Paso 6: Crear las interfaces de los distintos repositorios
 
+Para cada uno de nuestras clases entidad, tenemos que generar las interfaces para los repositorios así:
+
+**Fichero RepositorioClientes.java**
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RepositorioClientes extends JpaRepository<Cliente, Long> {
+    
+}
+```
+
+Gracias al **"autowiring"** de Spring, automáticamente estarán disponibles 
+las consultas predefidas en Cliente (findById, findAll, findByNombre, findByApellidos....):
+
+**Fichero Cliente.java**
+```java
+@Entity
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
+    , @NamedQuery(name = "Cliente.findById", query = "SELECT c FROM Cliente c WHERE c.id = :id")
+    , @NamedQuery(name = "Cliente.findByNombre", query = "SELECT c FROM Cliente c WHERE c.nombre = :nombre")
+    , @NamedQuery(name = "Cliente.findByApellidos", query = "SELECT c FROM Cliente c WHERE c.apellidos = :apellidos")
+    , @NamedQuery(name = "Cliente.findByDni", query = "SELECT c FROM Cliente c WHERE c.dni = :dni")})
+public class Cliente implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Integer id;
+    @Basic(optional = false)
+    @Column(nullable = false, length = 40)
+    private String nombre;
+    @Basic(optional = false)
+    @Column(nullable = false, length = 100)
+    private String apellidos;
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private int dni;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
+    @JsonManagedReference
+    private List<ClienteDireccion> clienteDireccionList;
+
+
+```
+
 ### Paso 7: Crear el controlador
+
+```java
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ *
+ * @author profesor
+ */
+
+@RestController
+@RequestMapping("/rest")
+public class Controlador {
+    
+    @Autowired
+    RepositorioClientes repoClient;
+    
+    @Autowired
+    RepositorioCodPos repoCodPos;
+    
+    @Autowired
+    RepositorioDireccion repoDirec;
+
+   // Get All Clientes
+    @GetMapping("/clientes")
+    public List<Cliente> getAllAlumnos() {
+        return repoClient.findAll();
+    }
+    
+    // Get All CodPos
+    @GetMapping("/codpos")
+    public List<CodPos> getAllCodPos() {
+        return repoCodPos.findAll();
+    }
+    
+    // Get All ClienteDireccion
+    @GetMapping("/direcciones")
+    public List<ClienteDireccion> getAllDirecciones() {
+        return repoDirec.findAll();
+    }    
+}
+```
 
 ### Paso 8: Probar el servicio
 
+http://localhost:8080/rest/clientes
+
 ### Paso 9: Crear el cliente Web que conecte al servicio
 
-
+HTML5+JS+jQuery
 

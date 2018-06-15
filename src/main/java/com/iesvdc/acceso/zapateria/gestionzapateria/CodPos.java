@@ -6,7 +6,10 @@
 package com.iesvdc.acceso.zapateria.gestionzapateria;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -22,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author AndresAFB
+ * @author profesor
  */
 @Entity
 @XmlRootElement
@@ -31,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CodPos.findAll", query = "SELECT c FROM CodPos c")
     , @NamedQuery(name = "CodPos.findByCp", query = "SELECT c FROM CodPos c WHERE c.cp = :cp")
     , @NamedQuery(name = "CodPos.findByLocalidad", query = "SELECT c FROM CodPos c WHERE c.localidad = :localidad")})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
+                  property  = "cp", 
+                  scope     = Integer.class)
 public class CodPos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,9 +47,9 @@ public class CodPos implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, length = 120)
     private String localidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cp")
-    @JsonBackReference
-    private List<ClienteDireccion> clienteDireccionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpDireccionCliente")
+    // @JsonManagedReference
+    private List<ClienteDireccion> clienteDireccionList=new ArrayList<ClienteDireccion>();
 
     public CodPos() {
     }
@@ -73,6 +79,7 @@ public class CodPos implements Serializable {
         this.localidad = localidad;
     }
 
+    /*
     @XmlTransient
     public List<ClienteDireccion> getClienteDireccionList() {
         return clienteDireccionList;
@@ -81,7 +88,7 @@ public class CodPos implements Serializable {
     public void setClienteDireccionList(List<ClienteDireccion> clienteDireccionList) {
         this.clienteDireccionList = clienteDireccionList;
     }
-
+*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -106,5 +113,5 @@ public class CodPos implements Serializable {
     public String toString() {
         return "modelo.CodPos[ cp=" + cp + " ]";
     }
-    
+
 }

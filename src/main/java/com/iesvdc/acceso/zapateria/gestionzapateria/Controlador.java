@@ -7,8 +7,10 @@ package com.iesvdc.acceso.zapateria.gestionzapateria;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 // import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author AndresAFB
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/rest")
 public class Controlador {
@@ -31,9 +34,12 @@ public class Controlador {
     
     @Autowired
     RepositorioDireccion repoDirec;
+    
+    @Autowired
+    RepositorioProducto repoProd;
 
    // Get All Clientes
-    @GetMapping("/clientes")
+    @GetMapping("/cliente")
     public List<Cliente> getAllAlumnos() {
         return repoClient.findAll();
     }
@@ -52,13 +58,16 @@ public class Controlador {
         return repoDirec.findAll();
     }
     
-   /*
+    @GetMapping("/producto")
+    public List<Producto> getAllProductos() {
+        return repoProd.findAll();
+    }        
     // Get All Notes
     @GetMapping("/cliente/{id}")
-    public List<ClienteDireccion> getDireccions(Long id) {
-        return repoClient.();
+    public Cliente getCliente(@PathVariable(value = "id") Long id) {
+        return repoClient.findById(id).get();
     }
-   */
+  
 
     
 }

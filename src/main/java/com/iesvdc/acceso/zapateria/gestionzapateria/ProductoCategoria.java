@@ -5,7 +5,7 @@
  */
 package com.iesvdc.acceso.zapateria.gestionzapateria;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -49,7 +49,7 @@ public class ProductoCategoria implements Serializable {
     @Column(nullable = false, length = 35)
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Producto> productoList;
 
     public ProductoCategoria() {

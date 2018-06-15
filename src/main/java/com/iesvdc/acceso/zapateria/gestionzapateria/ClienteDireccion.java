@@ -6,7 +6,9 @@
 package com.iesvdc.acceso.zapateria.gestionzapateria;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,13 +20,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author AndresAFB
+ * @author profesor
  */
 @Entity
 @Table(name = "cliente_direccion")
@@ -33,7 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ClienteDireccion.findAll", query = "SELECT c FROM ClienteDireccion c")
     , @NamedQuery(name = "ClienteDireccion.findByNombre", query = "SELECT c FROM ClienteDireccion c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "ClienteDireccion.findByIdDireccion", query = "SELECT c FROM ClienteDireccion c WHERE c.idDireccion = :idDireccion")
-    , @NamedQuery(name = "ClienteDireccion.findByNombreVia", query = "SELECT c FROM ClienteDireccion c WHERE c.nombreVia = :nombreVia")})
+    , @NamedQuery(name = "ClienteDireccion.findByNombreVia", query = "SELECT c FROM ClienteDireccion c WHERE c.nombreVia = :nombreVia")
+    , @NamedQuery(name = "ClienteDireccion.findByIdCliente", query = "SELECT c FROM ClienteDireccion c WHERE c.nombreVia = :idCliente")})
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="idDireccion")
 public class ClienteDireccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,16 +46,16 @@ public class ClienteDireccion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_direccion", nullable = false)
-    private Integer idDireccion;
+    private Long idDireccion;
     @Basic(optional = false)
     @Column(name = "nombre_via", nullable = false, length = 150)
     private String nombreVia;
-    
+
     @JoinColumn(name = "cp", referencedColumnName = "cp", nullable = false)
     @ManyToOne(optional = false)
-    @JsonManagedReference
-    private CodPos cp;
-    
+    @JsonBackReference
+    private CodPos cpDireccionCliente;
+
     @JoinColumn(name = "id_cliente", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     @JsonBackReference
@@ -61,11 +64,11 @@ public class ClienteDireccion implements Serializable {
     public ClienteDireccion() {
     }
 
-    public ClienteDireccion(Integer idDireccion) {
+    public ClienteDireccion(Long idDireccion) {
         this.idDireccion = idDireccion;
     }
 
-    public ClienteDireccion(Integer idDireccion, String nombreVia) {
+    public ClienteDireccion(Long idDireccion, String nombreVia) {
         this.idDireccion = idDireccion;
         this.nombreVia = nombreVia;
     }
@@ -78,11 +81,11 @@ public class ClienteDireccion implements Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getIdDireccion() {
+    public Long getIdDireccion() {
         return idDireccion;
     }
 
-    public void setIdDireccion(Integer idDireccion) {
+    public void setIdDireccion(Long idDireccion) {
         this.idDireccion = idDireccion;
     }
 
@@ -95,11 +98,11 @@ public class ClienteDireccion implements Serializable {
     }
 
     public CodPos getCp() {
-        return cp;
+        return cpDireccionCliente;
     }
 
     public void setCp(CodPos cp) {
-        this.cp = cp;
+        this.cpDireccionCliente = cp;
     }
 
     public Cliente getIdCliente() {
@@ -134,5 +137,5 @@ public class ClienteDireccion implements Serializable {
     public String toString() {
         return "modelo.ClienteDireccion[ idDireccion=" + idDireccion + " ]";
     }
-    
+
 }
